@@ -1,22 +1,22 @@
 package element;
 /**  
-* ´´½¨Ê±¼ä£º2017Äê10ÔÂ12ÈÕ ÏÂÎç12:28:12  
-* ÏîÄ¿Ãû³Æ£ºPazzlProject  
+* åˆ›å»ºæ—¶é—´ï¼š2017å¹´10æœˆ12æ—¥ ä¸‹åˆ12:28:12  
+* é¡¹ç›®åç§°ï¼šPazzlProject  
 * @author gaoxiang 
 * @version 1.0   
 * @Email:630268696@qq.com  
-* ÎÄ¼şÃû³Æ£ºLattice.java  
-* ÀàËµÃ÷£º  
+* æ–‡ä»¶åç§°ï¼šLattice.java  
+* ç±»è¯´æ˜ï¼š  
 */
 public class Lattice {
-	//±ê¼ÇÔªËØµÄ¸ñÊ½ÀàĞÍ
+	//æ ‡è®°å…ƒç´ çš„æ ¼å¼ç±»å‹
 	private PazzleStyle format_Tree =PazzleStyle.wall;
-	//±ê¼Ç·½¸ñ¶ÔÓ¦Î»ÖÃ
+	//æ ‡è®°æ–¹æ ¼å¯¹åº”ä½ç½®
 	private int size_x =-1;
 	private int size_y =-1;
 	
 	private Season flag = Season.spring;
-	//´ËÀàÓÃ·¨»¹²»Ã÷È·
+	//æ­¤ç±»ç”¨æ³•è¿˜ä¸æ˜ç¡®
 	private Lattice father=null;
 	
 	public Lattice(int x,int y){

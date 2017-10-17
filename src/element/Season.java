@@ -1,12 +1,12 @@
 package element;
 /**  
-* ´´½¨Ê±¼ä£º2017Äê10ÔÂ14ÈÕ ÏÂÎç5:19:35  
-* ÏîÄ¿Ãû³Æ£ºPazzlProject  
+* åˆ›å»ºæ—¶é—´ï¼š2017å¹´10æœˆ14æ—¥ ä¸‹åˆ5:19:35  
+* é¡¹ç›®åç§°ï¼šPazzlProject  
 * @author gaoxiang 
 * @version 1.0   
 * @Email:630268696@qq.com  
-* ÎÄ¼şÃû³Æ£ºSeason.java  
-* ÀàËµÃ÷£º  
+* æ–‡ä»¶åç§°ï¼šSeason.java  
+* ç±»è¯´æ˜ï¼š  
 */
 public enum Season {
 	spring{

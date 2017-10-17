@@ -1,12 +1,12 @@
 package element;
 /**  
-* ´´½¨Ê±¼ä£º2017Äê10ÔÂ13ÈÕ ÏÂÎç7:34:53  
-* ÏîÄ¿Ãû³Æ£ºPazzlProject  
+* åˆ›å»ºæ—¶é—´ï¼š2017å¹´10æœˆ13æ—¥ ä¸‹åˆ7:34:53  
+* é¡¹ç›®åç§°ï¼šPazzlProject  
 * @author gaoxiang 
 * @version 1.0   
 * @Email:630268696@qq.com  
-* ÎÄ¼şÃû³Æ£ºPazzleStyle.java  
-* ÀàËµÃ÷£º  
+* æ–‡ä»¶åç§°ï¼šPazzleStyle.java  
+* ç±»è¯´æ˜ï¼š  
 */
 
 public enum PazzleStyle {

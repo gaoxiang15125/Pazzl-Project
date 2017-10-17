@@ -20,16 +20,15 @@ import element.Lattice;
 public class PreminaryPazzle extends JPanel{
 	
 	//width指每个方格的大小,NUM记录迷宫的规模大小
-	private int NUM,width,padding;
+	private int NUM,width;
 	//迷宫格子的组成集合
 	private Lattice[][]maze;
 	//精灵位置记录
 	private int cat_X,cat_Y;
 	
-	public PreminaryPazzle(int num,int width,int p){
+	public PreminaryPazzle(int num,int width){
 		NUM=num;
 		this.width=width;
-		padding =p;
 		maze = new Lattice[NUM][NUM];
 		
 		for(int i=0;i<NUM;i++){
@@ -38,9 +37,19 @@ public class PreminaryPazzle extends JPanel{
 			}
 		}
 		
-		
-		
 	}
+	/**
+	 * 初始化数据的方法
+	 */
+	public void init(){
+		for(int i=0;i<NUM;i++){
+			for(int k=0;k<NUM;k++){
+				maze[i][k].setFather(null);
+				
+			}
+		}
+	}
+	
 	/**
 	 * 迷宫的生成算法，生成每行通路个数相同的迷宫
 	 */
