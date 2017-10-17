@@ -11,16 +11,11 @@ package element;
 
 public enum PazzleStyle {
 	wall{
-		public void setSeason(Season season){
-			
-		}
+		
 	},
 	
 	road{
-public void setSeason(Season season){
-			
-		}
+		
 	};
 	
-	public abstract void setSeason(Season season);
 }

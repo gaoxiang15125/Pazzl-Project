@@ -8,6 +8,17 @@ package element;
 * 文件名称：Season.java  
 * 类说明：  
 */
-public class Season {
-
+public enum Season {
+	spring{
+		
+	},
+	summer{
+		
+	},
+	fall{
+		
+	},
+	winter{
+		
+	}
 }

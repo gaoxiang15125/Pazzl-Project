@@ -10,18 +10,58 @@ package element;
 */
 public class Lattice {
 	//标记元素的格式类型
-	private int format_Tree =0;
-	//标记方格对应位置？不明白
-	private int x =-1;
-	private int y =-1;
+	private PazzleStyle format_Tree =PazzleStyle.wall;
+	//标记方格对应位置
+	private int size_x =-1;
+	private int size_y =-1;
 	
-	private int flag = 
+	private Season flag = Season.spring;
 	//此类用法还不明确
 	private Lattice father=null;
 	
 	public Lattice(int x,int y){
-		this.x =x;
-		this.y=y;
+		this.size_x =x;
+		this.size_y=y;
+	}
+
+	public PazzleStyle getFormat_Tree() {
+		return format_Tree;
+	}
+
+	public void setFormat_Tree(PazzleStyle format_Tree) {
+		this.format_Tree = format_Tree;
+	}
+
+	public int getX() {
+		return size_x;
+	}
+
+	public void setX(int x) {
+		this.size_x = x;
+	}
+
+	public int getY() {
+		return size_y;
+	}
+
+	public void setY(int y) {
+		this.size_y = y;
+	}
+
+	public Season getFlag() {
+		return flag;
+	}
+
+	public void setFlag(Season flag) {
+		this.flag = flag;
+	}
+
+	public Lattice getFather() {
+		return father;
+	}
+
+	public void setFather(Lattice father) {
+		this.father = father;
 	}
 	
 }
