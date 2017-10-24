@@ -1,17 +1,22 @@
-package maze;
+package usercreat;
+import java.awt.Color;
 /**  
-* 创建时间：2017年10月12日 下午12:20:19  
+* 创建时间：2017年10月24日 下午10:39:50  
 * 项目名称：PazzlProject  
 * @author gaoxiang 
 * @version 1.0   
 * @Email:630268696@qq.com  
-* 文件名称：PreminaryPazzle.java  
+* 文件名称：PreCreat.java  
 * 类说明：  
 */
-
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.ImageObserver;
 import java.util.Observable;
 import java.util.Random;
@@ -26,7 +31,7 @@ import element.Lattice;
 import element.Season;
 import javafx.css.PseudoClass;
 
-public class PreminaryPazzle extends JPanel implements KeyListener{
+public class PreCreat extends JPanel implements Runnable,KeyListener,MouseListener,MouseMotionListener{
 	//迷宫显示与原图倍数
 	public double mazeNum = 2.0;
 	//width指每个方格的大小,NUM记录迷宫的规模大小
@@ -44,13 +49,16 @@ public class PreminaryPazzle extends JPanel implements KeyListener{
 	private int begin_x,begin_y;
 	//背景图片，未添加维护部分
 	private ImageIcon floor = new ImageIcon("img\\floor\\00.png");
-	
-	
-	public PreminaryPazzle(int begin_x,int begin_y,int num){
+	//控制用户操作的key值true 可创造，false不可操作
+	private boolean creatMaze = true;
+	//调接闪光的key值
+	private boolean color =true;
+	public PreCreat(int begin_x,int begin_y,int num){
 		this.begin_x = begin_x;
 		this.begin_y = begin_y;
 		NUM=num;
 		this.width=width;
+		this.addMouseListener(this);
 		maze = new Lattice[NUM][NUM];
 		draw_Maze = new int[2*NUM+1][2*NUM+1];
 		for(int i=0;i<NUM;i++){
@@ -59,6 +67,8 @@ public class PreminaryPazzle extends JPanel implements KeyListener{
 			}
 		}
 		init();
+		Thread thread = new Thread(this);
+		thread.start();;
 	}
 	/**
 	 * 初始化数据的方法
@@ -124,9 +134,29 @@ public class PreminaryPazzle extends JPanel implements KeyListener{
 	public void paintComponent(java.awt.Graphics g){
 		draw_Maze[0][1] =1;
 		draw_Maze[2*NUM][2*NUM-1]=1;
+		if(color){
+			g.setColor(new Color(199, 237, 204));
+		}else{
+			g.setColor(new Color(250, 250, 65));
+		}
 		g.drawImage(floor.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
+		g.drawLine(begin_x+draw_Maze.length*changeImgSize(plantImg[4].getIconWidth()), begin_y, 
+				begin_x+draw_Maze.length*changeImgSize(plantImg[4].getIconWidth()), begin_y+draw_Maze[0].length*changeImgSize(plantImg[4].getIconHeight()));
+		g.drawLine(begin_x, begin_y+draw_Maze[0].length*changeImgSize(plantImg[4].getIconHeight()), 
+				begin_x+draw_Maze.length*changeImgSize(plantImg[4].getIconWidth()),
+				begin_y+draw_Maze[0].length*changeImgSize(plantImg[4].getIconHeight()));
+		
 		for(int i =0;i<draw_Maze.length;i++){
+			if(creatMaze){
+				g.drawLine(begin_x+i*changeImgSize(plantImg[4].getIconWidth()), begin_y, 
+					begin_x+i*changeImgSize(plantImg[4].getIconWidth()), begin_y+draw_Maze[0].length*changeImgSize(plantImg[4].getIconHeight()));
+			}
 			for(int k=0;k<draw_Maze[0].length;k++){
+				if(creatMaze){
+					g.drawLine(begin_x, begin_y+k*changeImgSize(plantImg[4].getIconHeight()), 
+						begin_x+draw_Maze.length*changeImgSize(plantImg[4].getIconWidth()),
+						begin_y+k*changeImgSize(plantImg[4].getIconHeight()));
+				}
 				if(draw_Maze[i][k]==0){
 					
 					g.drawImage(season.seasonImg[4].getImage(), 
@@ -235,14 +265,16 @@ public class PreminaryPazzle extends JPanel implements KeyListener{
 	}
 	
 	public static void main(String[]args){
-			final int n = 15, width = 600, padding = 20, LX = 200, LY = 100;
-		 	PreminaryPazzle p = new PreminaryPazzle(0,0,7);
+			Dimension   screensize   =   Toolkit.getDefaultToolkit().getScreenSize();
+			int width = (int)screensize.getWidth();
+			int height = (int)screensize.getHeight();
+		 	PreCreat p = new PreCreat(0,0,7);
 		 	
 		    JFrame frame = new JFrame("MAZE(按空格键显示或隐藏路径)");
 		    frame.getContentPane().add(p);
 		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		    frame.setSize(width + padding, width + padding + padding);
-		    frame.setLocation(LX, LY);
+		    frame.setSize(660, height);
+		    frame.setLocation(0, 0);
 		    frame.setVisible(true);
 	}
 	@Override
@@ -276,4 +308,100 @@ public class PreminaryPazzle extends JPanel implements KeyListener{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int click_X=e.getX();
+		int click_Y=e.getY();
+		int maze_x=-1,maze_y=-1;
+		if(e.getButton()==e.BUTTON1){
+			for(int i=0;i<draw_Maze.length;i++){
+				if(click_X>begin_x+i*changeImgSize(plantImg[4].getIconWidth())&&click_X<begin_x+(i+1)*changeImgSize(plantImg[4].getIconWidth())){
+					
+					maze_x = i;
+					for(int k=0;k<draw_Maze[0].length;k++){
+						if(click_Y>begin_y+k*changeImgSize(plantImg[4].getIconHeight())&&click_Y<begin_y+(k+1)*changeImgSize(plantImg[4].getIconHeight())){
+							
+							maze_y=k;
+						}
+						else{
+							continue;
+						}
+					}
+				}
+				
+			}
+			if(maze_x>0&&maze_y>0){
+				draw_Maze[maze_x][maze_y]=0;
+			}
+		}
+		if(e.getButton()==e.BUTTON3){
+			for(int i=0;i<draw_Maze.length;i++){
+				if(click_X>begin_x+i*changeImgSize(plantImg[4].getIconWidth())&&click_X<begin_x+(i+1)*changeImgSize(plantImg[4].getIconWidth())){
+					
+					maze_x = i;
+					for(int k=0;k<draw_Maze[0].length;k++){
+						if(click_Y>begin_y+k*changeImgSize(plantImg[4].getIconHeight())&&click_Y<begin_y+(k+1)*changeImgSize(plantImg[4].getIconHeight())){
+							
+							maze_y=k;
+						}
+						else{
+							continue;
+						}
+					}
+				}
+				
+			}
+			if(maze_x>0&&maze_y>0){
+				draw_Maze[maze_x][maze_y]=1;
+			}
+		}
+		
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		while(true){
+			try{
+				Thread.sleep(100);
+			}catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("地图创造迷宫出现错误");
+			}
+			color=!color;
+			repaint();
+		}
+	}
 }
+

@@ -13,18 +13,19 @@ import javax.swing.ImageIcon;
 
 public class SeasonImg {
 	//存储季节图片的资源引用目标
-	public static ImageIcon[] springImg =new ImageIcon[16];
-	public static ImageIcon[] summerImg =new ImageIcon[16];
-	public static ImageIcon[] fallImg =new ImageIcon[16];
-	public static ImageIcon[] winterImg =new ImageIcon[16];
 	public static int imgeNum = 16;
+	public static ImageIcon[] springImg =new ImageIcon[imgeNum];
+	public static ImageIcon[] summerImg =new ImageIcon[imgeNum];
+	public static ImageIcon[] fallImg =new ImageIcon[imgeNum];
+	public static ImageIcon[] winterImg =new ImageIcon[imgeNum];
+	
 	
 	static{
-		for(int i=1;i<imgeNum+1;i++){
-			springImg[i]=new ImageIcon("img\\spring\\10"+i+".png");
-			summerImg[i]=new ImageIcon("img\\summer\\10"+i+".png");
-			fallImg[i]=new ImageIcon("img\\fall\\10"+i+".png");
-			winterImg[i]=new ImageIcon("img\\winter\\10"+i+".png");
+		for(int i=1001;i<imgeNum+1001;i++){
+			springImg[i-1001]=new ImageIcon("img\\spring\\"+i+".png");
+			summerImg[i-1001]=new ImageIcon("img\\summer\\"+i+".png");
+			fallImg[i-1001]=new ImageIcon("img\\fall\\"+i+".png");
+			winterImg[i-1001]=new ImageIcon("img\\winter\\"+i+".png");
 		}
 	}
 }
