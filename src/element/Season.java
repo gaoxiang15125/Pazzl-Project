@@ -8,22 +8,17 @@ package element;
 * 文件名称：Season.java  
 * 类说明：  
 */
-
-import javax.swing.ImageIcon;
-
-import image.SeasonImg;
-
 public enum Season {
-	spring(SeasonImg.springImg),
-	summer(SeasonImg.summerImg),
-	fall(SeasonImg.fallImg),
-	winter(SeasonImg.winterImg);
-	public ImageIcon[] seasonImg;
-	Season(ImageIcon[] icon){
-		this.seasonImg =icon;
-	}
-	
-	public ImageIcon[] getSeasonImg(){
-		return seasonImg;
+	spring{
+		
+	},
+	summer{
+		
+	},
+	fall{
+		
+	},
+	winter{
+		
 	}
 }

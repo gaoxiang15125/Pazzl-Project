@@ -19,7 +19,7 @@ public class CatImg {
 	
 	static{
 		for(int i=0;i<23;i++){
-			Cat_Image[i] = new ImageIcon("img\\cat\\"+(i+1) +".png");
+			Cat_Image[i] = new ImageIcon("img\\cat\\"+(i+1)+".png");
 		}
 	}
 	

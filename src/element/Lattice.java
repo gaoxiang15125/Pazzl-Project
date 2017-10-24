@@ -9,32 +9,19 @@ package element;
 * 类说明：  
 */
 public class Lattice {
-	//标识叶节点的静态类型
-	public static int INTREE = 1;
-	public static int NOINTREE = 0;
 	//标记元素的格式类型
 	private PazzleStyle format_Tree =PazzleStyle.wall;
 	//标记方格对应位置
-	private int x =-1;
-	private int y =-1;
+	private int size_x =-1;
+	private int size_y =-1;
 	
-	//树结构利用单元
+	private Season flag = Season.spring;
+	//此类用法还不明确
 	private Lattice father=null;
-	private int flag = NOINTREE;
-
 	
-
-	public int getFlag(){
-		return flag;
-	}
-	
-	public void setFlag(int flag) {
-		this.flag = flag;
-	}
-
 	public Lattice(int x,int y){
-		this.x =x;
-		this.y=y;
+		this.size_x =x;
+		this.size_y=y;
 	}
 
 	public PazzleStyle getFormat_Tree() {
@@ -46,19 +33,27 @@ public class Lattice {
 	}
 
 	public int getX() {
-		return x;
+		return size_x;
 	}
 
 	public void setX(int x) {
-		this.x = x;
+		this.size_x = x;
 	}
 
 	public int getY() {
-		return y;
+		return size_y;
 	}
 
 	public void setY(int y) {
-		this.y = y;
+		this.size_y = y;
+	}
+
+	public Season getFlag() {
+		return flag;
+	}
+
+	public void setFlag(Season flag) {
+		this.flag = flag;
 	}
 
 	public Lattice getFather() {
