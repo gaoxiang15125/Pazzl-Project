@@ -12,6 +12,8 @@ package maze;
 import java.awt.Container;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.ImageObserver;
 import java.util.Observable;
 import java.util.Random;
@@ -24,11 +26,12 @@ import com.sun.prism.Graphics;
 
 import element.Lattice;
 import element.Season;
+import godlins.CatGod;
 import javafx.css.PseudoClass;
+import tool.ImageControl;
 
-public class PreminaryPazzle extends JPanel implements KeyListener{
-	//迷宫显示与原图倍数
-	public double mazeNum = 2.0;
+public class PreminaryPazzle extends JPanel implements KeyListener,MouseListener{
+	
 	//width指每个方格的大小,NUM记录迷宫的规模大小
 	private int NUM,width;
 	//迷宫格子的组成集合
@@ -44,7 +47,12 @@ public class PreminaryPazzle extends JPanel implements KeyListener{
 	private int begin_x,begin_y;
 	//背景图片，未添加维护部分
 	private ImageIcon floor = new ImageIcon("img\\floor\\00.png");
-	
+	//本次地图组成元素编号
+	private int picFloor = 4;
+	//精灵的声明
+	private CatGod catGod;
+	//猫的绘制坐标
+	int cat_draw_x,cat_draw_y;
 	
 	public PreminaryPazzle(int begin_x,int begin_y,int num){
 		this.begin_x = begin_x;
@@ -64,6 +72,7 @@ public class PreminaryPazzle extends JPanel implements KeyListener{
 	 * 初始化数据的方法
 	 */
 	public void init(){
+		catGod = new CatGod();
 		for(int i=0;i<NUM;i++){
 			for(int k=0;k<NUM;k++){
 				maze[i][k].setFather(null);
@@ -77,14 +86,18 @@ public class PreminaryPazzle extends JPanel implements KeyListener{
 		
 		cat_X =0;
 		cat_Y =0;
-		
-		createMaze();
+				createMaze();
 		//添加监听器
+		this.addKeyListener(this);
 		
 		createMazeForDraw();
 		this.setFocusable(true);
 		plantImg =season.seasonImg;
+		cat_draw_x =1+ begin_x+cat_X*ImageControl.changeImgSize(plantImg[picFloor].getIconWidth());
+		cat_draw_y =43+ begin_y+(cat_Y+1)*ImageControl.changeImgSize(plantImg[picFloor].getIconHeight());
 		repaint();
+		
+
 	}
 	
 	/**
@@ -125,15 +138,16 @@ public class PreminaryPazzle extends JPanel implements KeyListener{
 		draw_Maze[0][1] =1;
 		draw_Maze[2*NUM][2*NUM-1]=1;
 		g.drawImage(floor.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
+		//System.out.println(plantImg[4].getIconWidth()+"  "+plantImg[4].getIconHeight());
 		for(int i =0;i<draw_Maze.length;i++){
 			for(int k=0;k<draw_Maze[0].length;k++){
 				if(draw_Maze[i][k]==0){
 					
-					g.drawImage(season.seasonImg[4].getImage(), 
-							begin_x+i*changeImgSize(plantImg[4].getIconWidth()), 
-							begin_y+k*changeImgSize(plantImg[4].getIconHeight()),
-							changeImgSize(plantImg[4].getIconWidth()),
-							changeImgSize(plantImg[4].getIconHeight()), (ImageObserver)this);
+					g.drawImage(season.seasonImg[picFloor].getImage(), 
+							begin_x+i*ImageControl.changeImgSize(plantImg[picFloor].getIconWidth()), 
+							begin_y+k*ImageControl.changeImgSize(plantImg[picFloor].getIconHeight()),
+							ImageControl.changeImgSize(plantImg[picFloor].getIconWidth()),
+							ImageControl.changeImgSize(plantImg[picFloor].getIconHeight()), (ImageObserver)this);
 				}
 				else if(draw_Maze[i][k]==1){
 					
@@ -143,15 +157,10 @@ public class PreminaryPazzle extends JPanel implements KeyListener{
 				}
 			}
 		}
+		
+		catGod.DrawCat(g, this,cat_draw_x,cat_draw_y);
 	}
-	private int changeImgSize(int num){
-		if(mazeNum<0.2){
-			return num;
-		}
-		else{
-			return (int) (num/mazeNum);
-		}
-	}
+	
 	public Season getSeason() {
 		return season;
 	}
@@ -245,26 +254,120 @@ public class PreminaryPazzle extends JPanel implements KeyListener{
 		    frame.setLocation(LX, LY);
 		    frame.setVisible(true);
 	}
+	private boolean checkCatOut(){
+		
+		int buffX=-1,buffY=-1;
+		for(int i=0;i<draw_Maze.length;i++){
+			if(cat_draw_x>=begin_x+i*ImageControl.changeImgSize(plantImg[picFloor].getIconWidth())&&cat_draw_x<=begin_x+(i+1)*ImageControl.changeImgSize(plantImg[picFloor].getIconWidth())){
+				buffX= i;
+			}
+		}
+		for(int k=0;k<draw_Maze[0].length;k++){
+			if(cat_draw_y>=begin_y+k*ImageControl.changeImgSize(plantImg[4].getIconHeight())&&cat_draw_y<=begin_y+(k+1)*ImageControl.changeImgSize(plantImg[4].getIconHeight())){
+							
+				buffY=k;
+			}
+			else{
+				continue;
+			}
+		}
+		System.out.println(buffX+"  "+buffY);
+		if(buffX>=0&&buffY>=0){
+			cat_X=buffX;
+			cat_Y=buffY;
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
-			System.out.println("按下方向键上");
+			if(checkCatOut()){
+			//	cat_draw_y = begin_y+(cat_Y+1)*ImageControl.changeImgSize(plantImg[picFloor].getIconHeight());
+				if(draw_Maze[cat_X][cat_Y-1]!=0){
+					cat_draw_y-=5;
+				}
+				else if(cat_draw_y-21>begin_y+(cat_Y-1)*ImageControl.changeImgSize(plantImg[picFloor].getIconHeight())){
+					cat_draw_y-=5;
+				}
+				else{
+					
+				}
+				repaint();
+			}
 			break;
 		case KeyEvent.VK_LEFT:
-			System.out.println("按下方向键左");
+			if(checkCatOut()){
+				//	cat_draw_y = begin_y+(cat_Y+1)*ImageControl.changeImgSize(plantImg[picFloor].getIconHeight());
+				if(cat_X==0){
+					cat_draw_x-=5;
+					if(cat_draw_x<begin_x){
+						cat_draw_x=begin_x;
+					}
+				}
+				else if(draw_Maze[cat_X-1][cat_Y]!=0){
+						cat_draw_x-=5;
+				}
+				else if(cat_draw_x>begin_x+(cat_X-1)*ImageControl.changeImgSize(plantImg[picFloor].getIconHeight())){
+						cat_draw_x-=5;
+				}
+				else{
+						
+				}
+			}
+			repaint();
 			break;
 		case KeyEvent.VK_RIGHT:
-			System.out.println("按下方向健右”");
+			if(checkCatOut()){
+				//	cat_draw_y = begin_y+(cat_Y+1)*ImageControl.changeImgSize(plantImg[picFloor].getIconHeight());
+				if(cat_X==draw_Maze[0].length-1){
+					cat_draw_x+=5;
+					if(cat_draw_x>begin_x+(draw_Maze[0].length)*ImageControl.changeImgSize(plantImg[picFloor].getIconHeight())){
+						cat_draw_x+=5;
+					}
+				}
+				else if(draw_Maze[cat_X+1][cat_Y]!=0){
+						cat_draw_x+=5;
+				}
+				else if(cat_draw_x<begin_x+(cat_X+1)*ImageControl.changeImgSize(plantImg[picFloor].getIconHeight())){
+						cat_draw_x+=5;
+					}
+				else{
+						
+				}
+			}
+			repaint();
 			break;
 		case KeyEvent.VK_DOWN:
+			if(checkCatOut()){
+				//	cat_draw_y = begin_y+(cat_Y+1)*ImageControl.changeImgSize(plantImg[picFloor].getIconHeight());
+				if(cat_Y==draw_Maze.length-1){
+					cat_draw_y+=5;
+					if(cat_draw_y>begin_y+(draw_Maze.length)*ImageControl.changeImgSize(plantImg[picFloor].getIconHeight())){
+						cat_draw_x-=5;
+					}
+				}
+				else if(draw_Maze[cat_X][cat_Y+1]!=0){
+						cat_draw_y+=5;
+				}
+				else if(cat_draw_y<begin_y+(cat_Y+1)*ImageControl.changeImgSize(plantImg[picFloor].getIconHeight())){
+						cat_draw_y+=5;
+					}
+				else{
+						
+				}
+			}
+			repaint();
 			break;
 			
 		default:
 			
 			break;
 		}
+		System.out.println(cat_X+"   "+cat_Y);
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -273,6 +376,31 @@ public class PreminaryPazzle extends JPanel implements KeyListener{
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println(e.getX()+"   "+e.getY());
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

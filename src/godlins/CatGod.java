@@ -14,6 +14,7 @@ import com.sun.prism.Graphics;
 import com.sun.xml.internal.ws.api.server.Container;
 
 import image.CatImg;
+import tool.ImageControl;
 
 /**  
 * 创建时间：2017年10月17日 下午4:47:40  
@@ -24,29 +25,12 @@ import image.CatImg;
 * 文件名称：cat.java  
 * 类说明：  
 */
-public class CatGod extends JPanel implements Runnable{
+public class CatGod{
 	
-	private int size_x=0;
-	private int size_y=200;
 	private int pic_ID=0;
 	private ImageIcon[] cat_Walk ; 
 	private ImageIcon[] cat_Smile_Left ;
 	private ImageIcon[] cat_Smile_Right ;
-	public int getSize_x() {
-		return size_x;
-	}
-
-	public void setSize_x(int size_x) {
-		this.size_x = size_x;
-	}
-
-	public int getSize_y() {
-		return size_y;
-	}
-
-	public void setSize_y(int size_y) {
-		this.size_y = size_y;
-	}
 
 	public int getPic_ID() {
 		return pic_ID;
@@ -90,59 +74,22 @@ public class CatGod extends JPanel implements Runnable{
 
 	private ImageIcon[] cat_Cry_Walk = new ImageIcon[4];
 	public CatGod(){
-		this.setSize(800,800);
+		
 		cat_Walk = CatImg.getWalkImage();
 		//this.addMouseListener(this);
-		Thread thread = new Thread(this);
-		thread.start();
+		
 		/*
 		for(int i=0;i<cat_Walk.length;i++){
 			System.out.println(cat_Walk[i].getIconHeight());
 		}
 		*/
 	}
-	
-	public void cat_move(Direction direction){
-		switch (direction) {
-		case UP:
-			size_y--;
-			break;
-		case DOWN:
-			size_y++;
-			break;
-		case LEFT:
-			size_x--;
-			break;
-		case RIGHT:
-			size_x++;
-			break;
-		default:
-			System.out.println("if this words system.out,I promise I will fuck you");
-			break;
-		}
-	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		while(true){
-			try{
-				Thread.sleep(200);
-			}catch (Exception e) {
-				// TODO: handle exception
-				System.out.println("线程错误");
-			}
-			
-			if(pic_ID==2||pic_ID==3){
-				size_y+=10;
-			}
-			repaint();
-		}
-	}
-	
-	public void DrawCat(java.awt.Graphics g,JPanel panel){
-		int draw_y =size_y-cat_Walk[pic_ID].getIconHeight();
-		g.drawImage(cat_Walk[pic_ID].getImage(),size_x,draw_y,(ImageObserver)panel);
+	public void DrawCat(java.awt.Graphics g,JPanel panel,int size_x,int size_y){
+		int draw_y =size_y-ImageControl.changeImgSize(cat_Walk[pic_ID].getIconHeight());
+		//System.out.println(cat_Walk[pic_ID].getIconHeight()+"  "+cat_Walk[pic_ID].getIconWidth());
+		g.drawImage(cat_Walk[pic_ID].getImage(),size_x,draw_y,
+				ImageControl.changeImgSize(cat_Walk[pic_ID].getIconWidth()),
+				ImageControl.changeImgSize(cat_Walk[pic_ID].getIconHeight()),(ImageObserver)panel);
 		pic_ID++;
 
 		if(pic_ID==cat_Walk.length){
@@ -207,6 +154,24 @@ public class CatGod extends JPanel implements Runnable{
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		while(true){
+			try{
+				Thread.sleep(200);
+			}catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("线程错误");
+			}
+			
+			if(pic_ID==2||pic_ID==3){
+				size_y+=10;
+			}
+			repaint();
+		}
 	}
 	*/
 }

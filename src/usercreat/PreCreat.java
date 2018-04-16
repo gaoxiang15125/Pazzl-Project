@@ -23,6 +23,7 @@ import java.util.Random;
 import java.util.Stack;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import com.sun.prism.Graphics;
@@ -32,6 +33,12 @@ import element.Season;
 import javafx.css.PseudoClass;
 
 public class PreCreat extends JPanel implements Runnable,KeyListener,MouseListener,MouseMotionListener{
+	
+	//按钮组件的声明
+	JButton beginsButton;
+	JButton exitButton;
+	JButton addButton;
+	JButton lessButton;
 	//迷宫显示与原图倍数
 	public double mazeNum = 2.0;
 	//width指每个方格的大小,NUM记录迷宫的规模大小
@@ -53,6 +60,8 @@ public class PreCreat extends JPanel implements Runnable,KeyListener,MouseListen
 	private boolean creatMaze = true;
 	//调接闪光的key值
 	private boolean color =true;
+	//记录当前地图组成元素编号
+	private int wall_pic = 4;
 	public PreCreat(int begin_x,int begin_y,int num){
 		this.begin_x = begin_x;
 		this.begin_y = begin_y;
@@ -345,7 +354,7 @@ public class PreCreat extends JPanel implements Runnable,KeyListener,MouseListen
 				draw_Maze[maze_x][maze_y]=0;
 			}
 		}
-		if(e.getButton()==e.BUTTON3){
+		if(e.getButton()==e.BUTTON3 ){
 			for(int i=0;i<draw_Maze.length;i++){
 				if(click_X>begin_x+i*changeImgSize(plantImg[4].getIconWidth())&&click_X<begin_x+(i+1)*changeImgSize(plantImg[4].getIconWidth())){
 					
