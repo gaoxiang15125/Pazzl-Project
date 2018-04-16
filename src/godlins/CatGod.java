@@ -9,9 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.sun.javafx.scene.traversal.Direction;
-import com.sun.prism.Graphics;
-import com.sun.xml.internal.ws.api.server.Container;
+
 
 import image.CatImg;
 import tool.ImageControl;

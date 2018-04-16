@@ -26,7 +26,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import com.sun.prism.Graphics;
+
 
 import element.Lattice;
 import element.Season;
