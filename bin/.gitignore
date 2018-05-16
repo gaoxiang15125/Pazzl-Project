@@ -1,8 +1,9 @@
-/control/
-/element/
 /godlins/
-/image/
 /maze/
 /tool/
-/ui/
-/usercreat/
+/element/
+/control/
+/mazecreater/
+/mazealgorithm/
+/example/
+/mazePanel/

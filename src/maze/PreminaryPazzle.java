@@ -9,13 +9,11 @@ package maze;
 * 类说明：  
 */
 
-import java.awt.Container;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.ImageObserver;
-import java.util.Observable;
 import java.util.Random;
 import java.util.Stack;
 
@@ -27,54 +25,87 @@ import javax.swing.JPanel;
 import element.Lattice;
 import element.Season;
 import godlins.CatGod;
-import javafx.css.PseudoClass;
+import tool.BaseInfo;
 import tool.ImageControl;
 
 public class PreminaryPazzle extends JPanel implements KeyListener,MouseListener{
 	
-	//width指每个方格的大小,NUM记录迷宫的规模大小
-	private int NUM,width;
+	/**
+	 * 随便创造的一个序列号
+	 */
+	
+	private static final long serialVersionUID = 1L;
+	
+	
+	//初始位置定义(在窗口中的位置)
+	private int begin_x = 0,begin_y = 0;
+	//面板的大小定义(需不需要初始化呢)
+	private int size_x,size_y;
+	
+	//NUM记录迷宫的规模大小
+	private int NUM_X,NUM_Y;
+	
+	
 	//迷宫格子的组成集合
 	private Lattice[][]maze;
 	//绘制迷宫格子的数组存储索引
 	private int[][] draw_Maze;
 	//精灵位置记录
 	private int cat_X,cat_Y;
-	//记录季节气候信息、图片
+	//精灵的声明
+	private CatGod catGod;
+	//精灵的绘制坐标
+	int cat_draw_x,cat_draw_y;
+		
+	//记录季节气候信息、图片;plantImg 根据季节的不同采用不同的实例
 	private Season season = Season.spring;
 	private ImageIcon[] plantImg;
-	//初始位置定义
-	private int begin_x,begin_y;
+	
 	//背景图片，未添加维护部分
 	private ImageIcon floor = new ImageIcon("img\\floor\\00.png");
 	//本次地图组成元素编号
 	private int picFloor = 4;
-	//精灵的声明
-	private CatGod catGod;
-	//猫的绘制坐标
-	int cat_draw_x,cat_draw_y;
 	
-	public PreminaryPazzle(int begin_x,int begin_y,int num){
+	
+	public PreminaryPazzle() {
+		PreminaryPazzle(0,0,BaseInfo.frame_witdth,BaseInfo.frame_height,7,7);
+	}
+	
+	
+	/**
+	 * 多个初始化方法，充分满足用户的需要
+	 * @param begin_x
+	 * @param begin_y
+	 * @param size_x
+	 * @param size_y
+	 * @param num_X
+	 * @param num_Y
+	 */
+	public PreminaryPazzle(int begin_x,int begin_y,int size_x,int size_y,int num_X,int num_Y){
+		this.size_x = size_x;
+		this.size_y =size_y;
 		this.begin_x = begin_x;
 		this.begin_y = begin_y;
-		NUM=num;
-		this.width=width;
-		maze = new Lattice[NUM][NUM];
-		draw_Maze = new int[2*NUM+1][2*NUM+1];
-		for(int i=0;i<NUM;i++){
-			for(int k=0;k<NUM;k++){
+		this.NUM_X = num_X;
+		this.NUM_Y = num_Y;
+		maze = new Lattice[NUM_X][NUM_Y];
+		draw_Maze = new int[2*NUM_X+1][2*NUM_Y+1];
+		for(int i=0;i<NUM_X;i++){
+			for(int k=0;k<NUM_Y;k++){
 				maze[i][k]= new Lattice(i, k);
 			}
 		}
 		init();
 	}
+	
+	
 	/**
 	 * 初始化数据的方法
 	 */
 	public void init(){
 		catGod = new CatGod();
-		for(int i=0;i<NUM;i++){
-			for(int k=0;k<NUM;k++){
+		for(int i=0;i<NUM_X;i++){
+			for(int k=0;k<NUM_Y;k++){
 				maze[i][k].setFather(null);
 				maze[i][k].setFlag(Lattice.NOINTREE);
 				draw_Maze[2*i][2*k]=0;
@@ -245,7 +276,7 @@ public class PreminaryPazzle extends JPanel implements KeyListener,MouseListener
 	
 	public static void main(String[]args){
 			final int n = 15, width = 600, padding = 20, LX = 200, LY = 100;
-		 	PreminaryPazzle p = new PreminaryPazzle(0,0,7);
+		 	//PreminaryPazzle p = new PreminaryPazzle(0,0,7);
 		 	
 		    JFrame frame = new JFrame("MAZE(按空格键显示或隐藏路径)");
 		    frame.getContentPane().add(p);

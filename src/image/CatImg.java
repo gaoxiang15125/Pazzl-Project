@@ -11,7 +11,6 @@ package image;
 
 import javax.swing.ImageIcon;
 
-import javafx.scene.image.Image;
 
 public class CatImg {
 	//小猫图片的引用图片

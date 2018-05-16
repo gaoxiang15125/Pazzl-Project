@@ -1,4 +1,4 @@
-package usercreat;
+package mazePanel;
 import java.awt.Color;
 /**  
 * 创建时间：2017年10月24日 下午10:39:50  
@@ -9,9 +9,7 @@ import java.awt.Color;
 * 文件名称：PreCreat.java  
 * 类说明：  
 */
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -30,10 +28,13 @@ import javax.swing.JPanel;
 
 import element.Lattice;
 import element.Season;
-import javafx.css.PseudoClass;
 
-public class PreCreat extends JPanel implements Runnable,KeyListener,MouseListener,MouseMotionListener{
+public class MazeCreater extends JPanel implements Runnable,KeyListener,MouseListener,MouseMotionListener{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//按钮组件的声明
 	JButton beginsButton;
 	JButton exitButton;
@@ -62,7 +63,7 @@ public class PreCreat extends JPanel implements Runnable,KeyListener,MouseListen
 	private boolean color =true;
 	//记录当前地图组成元素编号
 	private int wall_pic = 4;
-	public PreCreat(int begin_x,int begin_y,int num){
+	public MazeCreater(int begin_x,int begin_y,int num){
 		this.begin_x = begin_x;
 		this.begin_y = begin_y;
 		NUM=num;
@@ -273,19 +274,6 @@ public class PreCreat extends JPanel implements Runnable,KeyListener,MouseListen
 		
 	}
 	
-	public static void main(String[]args){
-			Dimension   screensize   =   Toolkit.getDefaultToolkit().getScreenSize();
-			int width = (int)screensize.getWidth();
-			int height = (int)screensize.getHeight();
-		 	PreCreat p = new PreCreat(0,0,7);
-		 	
-		    JFrame frame = new JFrame("MAZE(按空格键显示或隐藏路径)");
-		    frame.getContentPane().add(p);
-		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		    frame.setSize(660, height);
-		    frame.setLocation(0, 0);
-		    frame.setVisible(true);
-	}
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub

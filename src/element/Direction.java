@@ -8,6 +8,19 @@ package element;
 * 文件名称：Direction.java  
 * 类说明：  
 */
-public class Direction {
-
+public enum Direction {
+	
+	up{
+		
+	},
+	down{
+		
+	},
+	left{
+		
+	},
+	right{
+		
+	}
+	
 }

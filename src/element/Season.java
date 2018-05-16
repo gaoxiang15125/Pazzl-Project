@@ -18,12 +18,13 @@ public enum Season {
 	summer(SeasonImg.summerImg),
 	fall(SeasonImg.fallImg),
 	winter(SeasonImg.winterImg);
+	
 	public ImageIcon[] seasonImg;
 	Season(ImageIcon[] icon){
 		this.seasonImg =icon;
 	}
 	
-	public ImageIcon[] getSeasonImg(){
+	public ImageIcon[] getSeasonImage(){
 		return seasonImg;
 	}
 }
